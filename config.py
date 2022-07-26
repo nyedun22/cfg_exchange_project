@@ -1,5 +1,6 @@
 HOST = "localhost"
 USER = "root"
-PASSWORD = "T0m0rr0w1"
+PASSWORD = "password"
 
+# update password with your sql password
 # pip3 install mysql-connector-python to get database and python to link up
