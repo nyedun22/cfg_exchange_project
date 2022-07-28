@@ -1,6 +1,8 @@
 # run app file to view flask site
+from flask import Flask, jsonify, render_template, request
+from forms import CustomerRegistrationForm, LoginForm
+
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 app.config["SECRET_KEY"] = "12345678"
 
 
