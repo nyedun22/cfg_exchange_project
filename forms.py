@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo  # Validatio
 # customer registration form
 class CustomerRegistrationForm(FlaskForm):
     # user login elements
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=30), validate_username])
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=30)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message="Passwords must match")])
 
@@ -17,9 +17,8 @@ class CustomerRegistrationForm(FlaskForm):
     # amount =
 
     # # address elements
-    # address_line_one = StringField('Address Line 1', validators=[DataRequired()])
-    # address_line_two = StringField('Address Line 2')
-    # postcode = StringField('Postcode', validators=[DataRequired()])
+    address = StringField('Address Line 1', validators=[DataRequired()])
+    postcode = StringField('Postcode', validators=[DataRequired()])
     # # submit
     submit = SubmitField('Sign Up')
 

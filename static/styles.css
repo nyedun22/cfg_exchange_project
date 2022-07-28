@@ -1,0 +1,41 @@
+body{
+  width: 90%;
+  margin: auto;
+  font-family: "Raleway", sans-serif;
+  background-color: #fffff;
+  color: #036aa9;
+  font-size: 18px;
+}
+
+h1 {
+  font-family: verdana;
+  color: #036aa9;
+  text-align: center;
+}
+
+p {
+  font-family: "Raleway", sans-serif;
+  color: #fffff;
+}
+
+footer {
+    padding-top: 20px;
+    padding-bottom: 50px;
+  font-size: 1 em;
+  text-align: center;
+  color: white;
+  font-family: "Raleway", sans-serif;
+  background-color: #036aa9;
+
+.error_message{
+  font-size: 1.3em;
+  color: red;
+}
+
+}
+
+
+
+
+
+
