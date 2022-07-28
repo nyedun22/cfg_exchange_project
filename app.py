@@ -7,14 +7,14 @@ app.config["SECRET_KEY"] = "12345678"
 
 
 @app.route('/')
-def hello_world():
-    return jsonify({'hello':'universe'})
+def home():
+    return render_template('home.html')
 
 
 # route for currency convertor
 @app.route('/currency')
 def currency_convertor():
-    return jsonify({'convert': 'currency'})
+    return render_template('currency.html')
 
 
 # route for user sign up form
@@ -23,11 +23,16 @@ def user_sign_up():
     form = CustomerRegistrationForm()
     return render_template('register.html', form=form)
 
+# route for user login form
+@app.route('/login')
+def user_login():
+    form = LoginForm()
+    return render_template('login.html', form=form)
 
 # route for viewing transactions page
 @app.route('/transactions')
 def transactions():
-    return jsonify({'my': 'transactions'})
+    return render_template('transactions.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block body_content %}
+
+<!--<&#45;&#45;! start html code from here - no need for the boilerplate code as this is inherited from layout.html &ndash;&gt;-->
+
+<div class="container">
+      <h1>Please login</h1>
+      <br>
+      <form action="" method="post">
+        <div class="form-group">
+                {{ form.username.label(class="form-control-label") }}
+                {{ form.username(class="form-control form-control-lg", placeholder="Username") }}
+        </div>
+        <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {{ form.password(class="form-control form-control-lg", placeholder="Password") }}
+        </div>
+
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-secondary") }}
+        </div>
+
+
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+<!--<&#45;&#45;! all html code should be before the below endblock tag so the footer remains at the bottom of page &ndash;&gt;-->
+{% endblock %}
