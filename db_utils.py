@@ -20,8 +20,10 @@ class Bank_User:
         self.password = None
         self.user_id = None
         self.cur_account_number = None
+        self.for_account_number = None
         self.cur_bank_balance = 0
         self.for_bank_balance = 0
+
 
     #function to get username
     def get_username(self, username_input):
@@ -85,13 +87,13 @@ class Bank_User:
     #function which creates a new account
     #using dummy exchange rate, this will be passed through as param later
     def create_foreign_account(self, user_amount):
-        DUMXCH = 2
+        DUM = 2
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
         query = ('INSERT INTO foreign_account (account_number, foreign_account_balance, foreign_currency) VALUES (%s, %s, %s)')
-        foreign_money = user_amount * DUMXCH
+        foreign_money = user_amount * DUM
         self.for_bank_balance += foreign_money
-        mycursor.execute(query, (self.cur_account_number, self.for_bank_balance, 'DUMXCH'))
+        mycursor.execute(query, (self.cur_account_number, self.for_bank_balance, 'DUM'))
         db_connection.commit()
 
     #function which updates current account bank balance
@@ -108,6 +110,14 @@ class Bank_User:
     #function to print current account balance
 
     #function to provide details of new foreign exchange account
+    def get_foreign_account(self):
+        db_connection = _connect_to_db()
+        mycursor = db_connection.cursor()
+        query = ('SELECT * FROM foreign account WHERE foreign_account_number = %')
+        mycursor.execute(query, (self.cur_account_number,))
+        self.for_account_number = foreign_account_number
+        
+
 
     #function to create new current account
 
@@ -150,9 +160,5 @@ class Bank_User:
 user = Bank_User()
 
 user.login_verification()
-#print('After Login\n'
-#      'Username:{}\nPassword:{}\nUserID:{}\nBankID:{}\nBankBalance:{}\nForeignCurrency:{}'.format(user.username, user.password, user.user_id, user.bank_id, user.bank_balance, user.foreign_currency))
 user.xchange_transaction()
-#print('After Transaction \n'
-#      'Username:{}\nPassword:{}\nUserID:{}\nBankID:{}\nBankBalance:{}\nForeignCurrency:{}'.format(user.username, user.password, user.user_id, user.bank_id, user.bank_balance, user.foreign_currency))
 user.reset_user()
