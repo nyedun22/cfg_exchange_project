@@ -1,6 +1,12 @@
 import mysql.connector
 from config import *
 from mysql.connector import Error
+from Project_API import currency, Rate_Info
+
+# api = currency()
+# api.get_rate()
+# api.exchange_amount()
+# print(Rate_Info)
 
 def _connect_to_db():
     db_connection = mysql.connector.connect(
@@ -86,14 +92,12 @@ class Bank_User:
 
     #function which creates a new account
     #using dummy exchange rate, this will be passed through as param later
-    def create_foreign_account(self, user_amount):
-        DUM = 2
+    def create_foreign_account(self, foreign_amount, currency_code):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
         query = ('INSERT INTO foreign_account (account_number, foreign_account_balance, foreign_currency) VALUES (%s, %s, %s)')
-        foreign_money = user_amount * DUM
-        self.for_bank_balance += foreign_money
-        mycursor.execute(query, (self.cur_account_number, self.for_bank_balance, 'DUM'))
+        self.for_bank_balance += foreign_amount
+        mycursor.execute(query, (self.cur_account_number, self.for_bank_balance, currency_code))
         db_connection.commit()
 
     #function which updates current account bank balance
@@ -127,22 +131,25 @@ class Bank_User:
         mycursor = db_connection.cursor()
         try:
             self.balance_check()
-            user_amount = input('How much do you want to exchange in GBP?')
-            user_amount = int(user_amount)
-            if user_amount > self.cur_bank_balance:
+            api = currency()
+            api.get_rate()
+            api.exchange_amount()
+            user_amount = Rate_Info['AmountGBP']
+            foreign_amount = Rate_Info['Foreign_Amount']
+            currency_code = Rate_Info['Currency']
+
+            if Rate_Info['AmountGBP'] > self.cur_bank_balance:
                 raise Exception
+
         except:
             print('Insufficient funds for this transaction, please try again')
+
         else:
-            #need to offer conversion rate, for now dummy exchange rate
-            #user then needs to accept conversion rate
-            #update current account balance
             self.update_current_account(user_amount)
-            #create and update foreign currency account
-            self.create_foreign_account(user_amount)
-            print('You have successfully transferred £{} into {} {}'.format(user_amount, user_amount*2, 'DUMXCH'))
+            self.create_foreign_account(foreign_amount, currency_code)
+            print('You have successfully transferred £{} into {} {}'.format(user_amount, Rate_Info['Foreign_Amount'], Rate_Info['Currency']))
             print('New Current Account Balance: {} GBP'.format(self.cur_bank_balance))
-            print('New Foreign Currency Account Balance: {} {}'.format(self.for_bank_balance, 'DUMXCH'))
+            print('New Foreign Currency Account Balance: {} {}'.format(self.for_bank_balance, Rate_Info['Currency']))
         finally:
             db_connection.close()
 
@@ -160,5 +167,13 @@ class Bank_User:
 user = Bank_User()
 
 user.login_verification()
+#user.balance_check()
 user.xchange_transaction()
-user.reset_user()
+
+# user.reset_user()
+
+#c = currency()
+#c.get_rate()
+#c.exchange_amount()
+
+
