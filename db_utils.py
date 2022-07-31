@@ -3,11 +3,6 @@ from config import *
 from mysql.connector import Error
 from Project_API import currency, Rate_Info
 
-# api = currency()
-# api.get_rate()
-# api.exchange_amount()
-# print(Rate_Info)
-
 def _connect_to_db():
     db_connection = mysql.connector.connect(
         host=HOST,
@@ -169,11 +164,8 @@ user = Bank_User()
 user.login_verification()
 #user.balance_check()
 user.xchange_transaction()
+user.reset_user()
 
-# user.reset_user()
 
-#c = currency()
-#c.get_rate()
-#c.exchange_amount()
 
 
