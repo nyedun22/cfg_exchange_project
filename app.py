@@ -1,6 +1,7 @@
 # run app file to view flask site
 from flask import Flask, jsonify, render_template, request
 from forms import CustomerRegistrationForm, LoginForm
+from currency_codes import get_currencies
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "12345678"
@@ -14,7 +15,8 @@ def home():
 # route for currency convertor
 @app.route('/currency')
 def currency_convertor():
-    return render_template('currency.html')
+    all_currencies = get_currencies()
+    return render_template('currency.html', all_currencies = all_currencies)
 
 
 # route for user sign up form

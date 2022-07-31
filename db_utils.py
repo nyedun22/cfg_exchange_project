@@ -158,14 +158,11 @@ class Bank_User:
         self.for_bank_balance = 0
 
 
-
 user = Bank_User()
 
 user.login_verification()
-#user.balance_check()
+user.balance_check()
 user.xchange_transaction()
 user.reset_user()
-
-
 
 
