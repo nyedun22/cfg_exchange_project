@@ -18,6 +18,10 @@ body {
 }
 
 /* --------- General styling ------------ */
+.small-logo {
+  height: 3rem;
+  width: 3rem;
+}
 
 .logo {
   height: 5rem;
@@ -45,6 +49,12 @@ body {
   width: 55%;
 }
 
+/* --------- Currency.html styling ------------ */
+.currency-elements .gray-box {
+  width: 85%;
+}
+
+/* --------- Footer styling ------------ */
 
 footer {
   font-size: 1 em;

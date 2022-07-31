@@ -1,5 +1,5 @@
 HOST = "localhost"
-USER = ""
+USER = "root"
 PASSWORD = "root" #set your own password here
 DATABASE_NAME = "exchange_project"
 
