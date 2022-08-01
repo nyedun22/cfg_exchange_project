@@ -113,7 +113,7 @@ def user_login():
     form = LoginForm()
     return render_template('login.html', form=form)
 
-# route for viewing transactions pagefl
+# route for viewing transactions page
 @app.route('/transactions')
 def transactions():
     return render_template('transactions.html')
