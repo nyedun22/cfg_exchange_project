@@ -1,3 +1,6 @@
+USE exchange_project;
+INSERT INTO currency_codes (currency_ID, currency_name, country)
+VALUES 
 ('AED', 'UAE Dirham', 'United Arab Emirates'),
 ('AFN', 'Afghan Afghani', 'Afghanistan'),
 ('ALL', 'Albanian Lek', 'Albania'),
@@ -158,4 +161,4 @@
 ('YER', 'Yemeni Rial', 'Yemen'),
 ('ZAR', 'South African Rand', 'South Africa'),
 ('ZMW', 'Zambian Kwacha', 'Zambia'),
-('ZWL', 'Zimbabwean Dollar', 'Zimbabwe')
+('ZWL', 'Zimbabwean Dollar', 'Zimbabwe');

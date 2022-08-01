@@ -1,6 +1,12 @@
+//Installing necessary packages (pip install...)//
+
 mysql-connector-python
 flask
 wtforms
 flask_wtf
 email_validator
 flash
+
+//Creating the database//
+To create the database, run db_setup.py just once. For now (01/08/2022), you will need to insert the country codes
+manually into your database as I have not created a function that does that (not yet!)

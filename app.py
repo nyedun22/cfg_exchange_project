@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, render_template, request, flash
 from forms import CustomerRegistrationForm, LoginForm
 from currency_codes import get_currencies
-from db_setup import mydb, cursor
+# from db_setup import mydb, cursor
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "12345678"

@@ -10,9 +10,8 @@ def _connect_to_db():
         database=DATABASE_NAME
     )
     return db_connection
+ 
     
-
-
 #function to get currency
 
 def get_currencies():
@@ -22,9 +21,5 @@ def get_currencies():
     mycursor.execute(currencies_query)
     results = mycursor.fetchall()
     return results
-        # all_currencies = []
-        # for currency in mycursor:
-        #     # all_currencies.append(currency)
-        #     print(currency)
-        # return all_currencies
+
 

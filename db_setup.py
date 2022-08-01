@@ -9,7 +9,7 @@ mydb = mysql.connector.connect(
 )
 
 create_db_cursor = mydb.cursor()
-# create_db_cursor.execute(f"CREATE DATABASE {DATABASE_NAME}")
+create_db_cursor.execute(f"CREATE DATABASE {DATABASE_NAME}")
 create_db_cursor.close()
 
 try:
