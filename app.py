@@ -16,7 +16,7 @@ def home():
 @app.route('/currency')
 def currency_convertor():
     all_currencies = get_currencies()
-    return render_template('currency.html', all_currencies = all_currencies)
+    return render_template('currency.html', all_currencies=all_currencies)
 
 
 # route for user sign up form
@@ -28,46 +28,6 @@ def user_sign_up():
         flash(f'Account created for {form.username.data}!', 'success')
     else:
         return render_template('register.html', form=form)
-
-    if request.method == 'POST':
-        username = request.form['username'],
-        password = request.form['password'],
-        first_name = request.form['first_name'],
-        last_name = request.form['last_name'],
-        email = request.form['email'],
-        address_line_one = request.form['address'],
-        postcode = request.form['postcode']
-
-        """if/else statement - if form field input text length less than required user will get error
-        otherwise user data will submit to database tables"""
-        if len(first_name) == 0 \
-                or len(last_name) == 0 \
-                or len(email) == 0\
-                or len(address_line_one) == 0\
-                or len(postcode) == 0\
-                or len(password) < 4\
-                or len(username) == 0:
-            error = "Please complete each section of this form"
-        else:
-            mydb.user_login = user_sign_up(
-                username=username,
-                pass_word=password)
-
-            mydb.user_details = user_sign_up(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                address_line_one=address_line_one,
-                postcode=postcode,
-                user_login=user_login)
-
-            cur = mysql.connection.cursor()
-            mydb.session.add(user_login)
-            mydb.session.add(user_sign_up)
-            mydb.session.commit()
-            return render_template('home.html', title='Home', message=error, form=form)
-        return render_template('register.html', title='Register', message=error, form=form)
-
 
 # route for user login form
 @app.route('/login')
