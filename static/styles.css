@@ -12,6 +12,11 @@ body {
   font-size: 16px;
 }
 
+.error_message{
+  font-size: 1.3em;
+  color: red;
+}
+
 /* --------- General styling ------------ */
 
 .logo {
