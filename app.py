@@ -21,6 +21,7 @@ def currency_convertor():
 
 
 # route for user sign up form
+@app.route('/register', methods=['GET', 'POST'])
 def user_sign_up():
     form = CustomerRegistrationForm()
     # validation for new customer registration form
@@ -89,22 +90,22 @@ def user_sign_up():
             error = "Please complete each section of this form"
         else:
             print("x")
-        #     mydb.user_login = user_sign_up(username=username, pass_word=pass_word)
-        #
-        #     mydb.user_details = user_sign_up(
-        #         first_name=first_name,
-        #         last_name=last_name,
-        #         email=email,
-        #         address_line_one=address_line_one,
-        #         postcode=postcode,
-        #         user_login=user_login)
-        #
-        #     # cur = mysql.connection.cursor()
-        #     mydb.session.add(user_login)
-        #     mydb.session.add(user_sign_up)
-        #     mydb.session.commit()
-        #     return render_template('home.html', title='Home', form=form)
-        # return render_template('register.html', title='Register', message=error, form=form)
+            mydb.user_login = user_sign_up(username=username, pass_word=pass_word)
+
+            mydb.user_details = user_sign_up(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                address_line_one=address_line_one,
+                postcode=postcode,
+                user_login=user_login)
+
+            # cur = mysql.connection.cursor()
+            mydb.session.add(user_login)
+            mydb.session.add(user_sign_up)
+            mydb.session.commit()
+            return render_template('home.html', title='Home', form=form)
+        return render_template('register.html', title='Register', message=error, form=form)
 
 # route for user login form
 @app.route('/login')
