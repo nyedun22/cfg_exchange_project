@@ -1,6 +1,6 @@
 # run app file to view flask site
 from flask import Flask, jsonify, render_template, request, flash
-from forms import CustomerRegistrationForm, LoginForm
+from forms import CustomerRegistrationForm, LoginForm, CurrencyForm
 from currency_codes import get_currencies
 # from db_setup import mydb, cursor
 
@@ -16,8 +16,9 @@ def home():
 # route for currency convertor
 @app.route('/currency')
 def currency_convertor():
+    form = CurrencyForm()
     all_currencies = get_currencies()
-    return render_template('currency.html', all_currencies=all_currencies)
+    return render_template('currency.html', all_currencies=all_currencies, form=form)
 
 
 # route for user sign up form

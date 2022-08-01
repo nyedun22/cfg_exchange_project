@@ -29,3 +29,8 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email(message='Please supply a valid email')])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+
+#currency form
+class CurrencyForm(FlaskForm):
+    pass
