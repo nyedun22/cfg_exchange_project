@@ -2,26 +2,62 @@
 {% block body_content %}
 
 <!--<&#45;&#45;! start html code from here - no need for the boilerplate code as this is inherited from layout.html &ndash;&gt;-->
-<section class="d-flex flex-column justify-content-center align-items-center h-100 home-elements">
+<!-- overall bootstrap container -->
+<div class="d-flex justify-content-center">
 
-    <div class="d-flex flex-row mt-5 align-items-center">
-        <img class="logo" src="../static/img/currency-logo.png" alt="">
-        <h1 class="font-weight-bold ml-2 h1">Xchange</h1>
+<div class="container-home">
+
+   <!-- logo section -->
+    <div class="d-flex justify-content-center">
+    <div id="logo-banner">
+        <img class="logo" src="../static/img/currency-logo.png" style="float:left;" alt="currency">
+        <h1 class="banner" style="font-weight-bold float:left font-size:2vw;">Xchange</h1>
+    </div>
     </div>
 
-    <a class="blue-box  btn btn-lg active" role="button" href="/login">
-        <h2>Log in to your bank account</h2>
-    </a>
+    <!-- content section -->
+<div class="d-flex justify-content-center">
 
-    <a 
-        class="gray-box d-flex flex-column btn active"
-        role="button"
-        href="/register"
-    >
-        <span>New Customer?</span>
-        <span>Create new account</span>
-    </a>
+<div class="content-sections">
+    <div class="new-customer">
+        <p>New Customer? Sign up for an account.</p>
+        <button class="btn1"><a href="{{ url_for('user_sign_up') }}" style="color:white">Create New Account</a></button>
+    </div>
+    <div class="existing-customer">
+        <p >Existing Customer? Log into your account</p>
+        <button class="btn2"><a href="{{ url_for('user_login') }}" style="color:white">Log Into Account</a></button>
 
-</section>
+    </div>
+    </div>
+
+</div>
+</div>
+</div>
+<!--<div class="container-home, d-flex flex-column justify-content-center align-items-center>-->
+<!--    <div class="logo-banner"-->
+<!--<section class="d-flex flex-column justify-content-center align-items-center h-100 home-elements">-->
+
+
+<!--</div>-->
+
+<!--<div class ="buttons"-->
+<!--        <p> Already have an account?</p>-->
+<!--&lt;!&ndash;commented out button code will take another look at this later &ndash;&gt;-->
+
+<!--    <a class="blue-box  btn btn-lg active" role="button" href="/login">-->
+<!--        <h2>Log in</h2>-->
+<!--    </a>-->
+<!--        <p>New Customer?</p>-->
+
+<!--    <a-->
+<!--        class="gray-box d-flex flex-column btn active"-->
+<!--        role="button"-->
+<!--        href="/register"-->
+<!--    >-->
+<!--        <span>Create Account</span>-->
+<!--    </a>-->
+<!--</div>-->
 <!--<&#45;&#45;! all html code should be before the below endblock tag so the footer remains at the bottom of page &ndash;&gt;-->
 {% endblock %}
+</div>
+</section>

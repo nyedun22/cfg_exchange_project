@@ -1,20 +1,15 @@
-:root {
+ :root {
   --light-blue: rgb(81, 208, 254);
   --gray: rgb(176, 179, 179);
 }
 
-* {  
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-size: 16px;
-}
-
 body {
+  width: 90%;
+  margin: auto;
   font-family: "Raleway", sans-serif;
   background-color: #ffffff;
-  height: 100vh;
-  width: 100vw;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
 /* --------- General styling ------------ */
@@ -24,25 +19,84 @@ body {
   width: 5rem;
 }
 
-.blue-box {
-  background-color: var(--light-blue);
-  color: white !important;
-}
 
-.gray-box {
-  background-color: var(--gray);
-  color: white !important;
-}
 
 /* --------- Home.html styling ------------ */
-
-.home-elements .blue-box {
-  width: 60%;
-  margin: 4rem 0 3rem 0;
+/* Container needed to position the button. Width auto so it aligns with nav */
+.container-home {
+  position: absolute;
+  width: auto;
+  padding-top: 50px;
+  padding-bottom: 100px;
 }
 
-.home-elements .gray-box {
-  width: 55%;
+.container-home #logo-banner {
+  position: relative;
+  margin: auto;
+  width: 90%;
+  padding-bottom: 50px;
+}
+
+.container-home .h1 {
+    font-weight: bold;
+    font-size: 2vw;
+}
+
+.container-home .new-customer {
+   padding-top: 50px;
+  padding-bottom: 30px;
+  width: 100%
+  margin: auto;
+
+}
+
+.container-home .existing-customer {
+  padding-bottom: 50px;
+  width: 100%;
+  margin: auto;
+
+}
+
+/* homepage button styling */
+.container-home .btn1 {
+  position: relative;
+  margin-top: 30px;
+   top: 80%;
+  left: 30%;
+    transform: translate(-20%, -20%);
+  -ms-transform: translate(-50%, -50%);
+    background-color: #3AB4FC;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  }
+
+.container-home .btn2 {
+    margin-top: 30px;
+  position: relative;
+   top: 80%;
+  left: 30%;
+    transform: translate(-20%, -20%);
+  -ms-transform: translate(-50%, -50%);
+    background-color: #3AB4FC;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  }
+
+/* Javascript to make home page buttons change colour when interacted */
+.container-home .btn1:hover {
+  background-color: #D3D3D3;
+}
+
+.container-home .btn2:hover {
+  background-color: #D3D3D3;
 }
 
 
@@ -54,7 +108,3 @@ footer {
   background-color: #036aa9;
 }
 
-.error_message{
-  font-size: 1.3em;
-  color: red;
-}
