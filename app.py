@@ -1,7 +1,7 @@
 # run app file to view flask site
 from flask import Flask, jsonify, render_template, request, flash
 from forms import CustomerRegistrationForm, LoginForm
-from db_setup import mydb
+from db_setup import mydb, cursor
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "12345678"
@@ -29,13 +29,13 @@ def user_sign_up():
         return render_template('register.html', form=form)
 
     if request.method == 'POST':
-        username = form.username.data
-        password = form.password.data
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        email = form.email.data
-        address_line_one = form.address.data
-        postcode = form.postcode.data
+        username = request.form['username'],
+        password = request.form['password'],
+        first_name = request.form['first_name'],
+        last_name = request.form['last_name'],
+        email = request.form['email'],
+        address_line_one = request.form['address'],
+        postcode = request.form['postcode']
 
         """if/else statement - if form field input text length less than required user will get error
         otherwise user data will submit to database tables"""
@@ -48,11 +48,11 @@ def user_sign_up():
                 or len(username) == 0:
             error = "Please complete each section of this form"
         else:
-            mydb.user_login = user_login(
+            mydb.user_login = user_sign_up(
                 username=username,
                 pass_word=password)
 
-            mydb.user_details = user_details(
+            mydb.user_details = user_sign_up(
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
@@ -60,8 +60,9 @@ def user_sign_up():
                 postcode=postcode,
                 user_login=user_login)
 
+            cur = mysql.connection.cursor()
             mydb.session.add(user_login)
-            mydb.session.add(user_details)
+            mydb.session.add(user_sign_up)
             mydb.session.commit()
             return render_template('home.html', title='Home', message=error, form=form)
         return render_template('register.html', title='Register', message=error, form=form)
