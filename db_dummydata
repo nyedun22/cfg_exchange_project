@@ -1,0 +1,253 @@
+import mysql.connector
+from config import *
+from mysql.connector import Error
+# from Project_API import currency, Rate_Info
+
+def _connect_to_db():
+    mydb = mysql.connector.connect(
+        host=HOST,
+        user=USER,
+        password=PASSWORD,
+        database=DATABASE_NAME
+    )
+    return mydb
+        
+
+mydb = _connect_to_db()
+cursor = mydb.cursor()
+
+""" Example of dummy data for table user_details"""
+
+sqlFormula = "INSERT INTO user_details (user_ID, first_name, last_name, username, email, pass_word, address_line_1, postcode) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+
+users = [(1, 'Aurora', 'Sanchez', 'AuroraS', 'aurora@gmail.com', 'abcdefghhh', '77A Mill Road, Burgess Hill', '1111111'),
+(2, 'Natasha', 'Edun', 'NatashaE', 'Natasha@gmail.com', 'abcdefghhi', '77B Mill Road, Burgess Hill', '1111112'),
+(3, 'Gianne', 'Nandra', 'GianneN', 'Gianne@gmail.com', 'abcdefghho', '77C Mill Road, Burgess Hill', '1111113'),
+(4, 'Brenda', 'Murage', 'BrendaM', 'Brenda@gmail.com','abcdefghhp', '77D Mill Road, Burgess Hill', '1111114'),
+(5, 'Juliette', 'Behr', 'JulietteB', 'Juliette@gmail.com','abcdefghhy', '77E Mill Road, Burgess Hill', '1111115')]
+
+cursor.executemany(sqlFormula, users)
+
+mydb.commit()
+
+""" Example of dummy data for table bank_details"""
+
+sqlFormula2 = "INSERT INTO bank_details (account_number, user_ID, sort_code, currency, main_account_balance) VALUES (%s, %s, %s, %s, %s)"
+
+details = [(12345678, 1, '44-44-44', 'GBP', 450.00),
+(12345671, 2, '44-44-45', 'GBP', 460.00),
+(12345673, 3, '44-44-46', 'GBP', 470.00 ),
+(12345674, 4, '44-44-47', 'GBP', 480.00),
+(12345679, 5, '44-44-48', 'GBP', 490.00)]
+
+cursor.executemany(sqlFormula2, details)
+mydb.commit()
+
+""" Example of dummy data for table foreign_account"""
+
+sqlFormula3 = "INSERT INTO foreign_account (foreign_account_number, account_number, foreign_account_balance, foreign_currency) VALUES (%s, %s, %s, %s)"
+
+new_account = [(12345675, 12345678, 400.00, 'EUR'),
+(22345675, 12345671, 100.00, 'EUR'),
+(32345675, 12345673, 600.00, 'EUR'),
+(42345675, 12345674, 800.00, 'USD'),
+(52345675, 12345679, 900.00, 'USD')]
+
+cursor.executemany(sqlFormula3, new_account)
+mydb.commit()
+
+""" Example of dummy data for table transactions"""
+
+sqlFormula4 = "INSERT INTO transactions (transaction_ID, account_number, foreign_account_number, date, foreign_currency, gbp_amount, foreign_currency_amount, exchange_rate) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+
+transaction_values = [(8787, 12345678,12345675, '2022-07-12 15:15:15', 'EUR', 25.25, 14.00, 0.000043),
+(2222, 12345673, 32345675, '2022-06-12 16:15:15', 'EUR', 35.25, 24.00, 0.000044),
+(3333, 12345674, 42345675, '2022-05-12 16:15:15', 'USD', 35.25, 54.00, 1.202582),
+(4444, 12345671, 12345675, '2022-06-13 12:15:15', 'EUR', 35.25, 24.00, 0.002345),
+(5555, 12345679, 52345675, '2022-06-12 16:15:15', 'USD', 55.00, 66.17, 1.202582)]
+
+cursor.executemany(sqlFormula4, transaction_values)
+mydb.commit()
+
+""" ACTUAL data for table currency_codes"""
+
+sqlFormula5 = "INSERT INTO currency_codes (currency_ID, currency_name, country) VALUES (%s, %s, %s)"
+
+currency_values = [('AED', 'UAE Dirham', 'United Arab Emirates'),
+('AFN', 'Afghan Afghani', 'Afghanistan'),
+('ALL', 'Albanian Lek', 'Albania'),
+('AMD', 'Armenian Dram', 'Armenia'),
+('ANG', 'Netherlands Antillian Guilder', 'Netherlands Antilles'),
+('AOA', 'Angolan Kwanza', 'Angola'),
+('ARS', 'Argentine Peso', 'Argentina'),
+('AUD', 'Australian Dollar', 'Australia'),
+('AWG', 'Aruban Florin', 'Aruba'),
+('AZN', 'Azerbaijani Manat', 'Azerbaijan'),
+('BAM', 'Bosnia and Herzegovina Mark', 'Bosnia and Herzegovina'),
+('BBD', 'Barbados Dollar', 'Barbados'),
+('BDT', 'Bangladeshi Taka', 'Bangladesh'),
+('BGN', 'Bulgarian Lev', 'Bulgaria'),
+('BHD', 'Bahraini Dinar', 'Bahrain'),
+('BIF', 'Burundian Franc', 'Burundi'),
+('BMD', 'Bermudian Dollar', 'Bermuda'),
+('BND', 'Brunei Dollar', 'Brunei'),
+('BOB', 'Bolivian Boliviano', 'Bolivia'),
+('BRL', 'Brazilian Real', 'Brazil'),
+('BSD', 'Bahamian Dollar', 'Bahamas'),
+('BTN', 'Bhutanese Ngultrum', 'Bhutan'),
+('BWP', 'Botswana Pula', 'Botswana'),
+('BYN', 'Belarusian Ruble', 'Belarus'),
+('BZD', 'Belize Dollar', 'Belize'),
+('CAD', 'Canadian Dollar', 'Canada'),
+('CDF', 'Congolese Franc', 'Democratic Republic of the Congo'),
+('CHF', 'Swiss Franc', 'Switzerland'),
+('CLP', 'Chilean Peso', 'Chile'),
+('CNY', 'Chinese Renminbi', 'China'),
+('COP', 'Colombian Peso', 'Colombia'),
+('CRC', 'Costa Rican Colon', 'Costa Rica'),
+('CUP', 'Cuban Peso', 'Cuba'),
+('CVE', 'Cape Verdean Escudo', 'Cape Verde'),
+('CZK', 'Czech Koruna', 'Czech Republic'),
+('DJF', 'Djiboutian Franc', 'Djibouti'),
+('DKK', 'Danish Krone', 'Denmark'),
+('DOP', 'Dominican Peso', 'Dominican Republic'),
+('DZD', 'Algerian Dinar', 'Algeria'),
+('EGP', 'Egyptian Pound', 'Egypt'),
+('ERN', 'Eritrean Nakfa', 'Eritrea'),
+('ETB', 'Ethiopian Birr', 'Ethiopia'),
+('EUR', 'Euro', 'European Union'),
+('FJD', 'Fiji Dollar', 'Fiji'),
+('FKP', 'Falkland Islands', 'Pound Falkland Islands'),
+('FOK', 'Faroese Króna', 'Faroe Islands'),
+('GBP', 'Pound Sterling', 'United Kingdom'),
+('GEL', 'Georgian Lari', 'Georgia'),
+('GGP', 'Guernsey Pound', 'Guernsey'),
+('GHS', 'Ghanaian Cedi', 'Ghana'),
+('GIP', 'Gibraltar Pound', 'Gibraltar'),
+('GMD', 'Gambian Dalasi', 'The Gambia'),
+('GNF', 'Guinean Franc', 'Guinea'),
+('GTQ', 'Guatemalan Quetzal', 'Guatemala'),
+('GYD', 'Guyanese Dollar', 'Guyana'),
+('HKD', 'Hong Kong Dollar', 'Hong Kong'),
+('HNL', 'Honduran Lempira', 'Honduras'),
+('HRK', 'Croatian Kuna', 'Croatia'),
+('HTG', 'Haitian', 'Gourde Haiti'),
+('HUF', 'Hungarian Forint', 'Hungary'),
+('IDR', 'Indonesian Rupiah', 'Indonesia'),
+('ILS', 'Israeli New Shekel', 'Israel'),
+('IMP', 'Manx Pound', 'Isle of Man'),
+('INR', 'Indian Rupee', 'India'),
+('IQD', 'Iraqi Dinar', 'Iraq'),
+('IRR', 'Iranian Rial', 'Iran'),
+('ISK', 'Icelandic Króna', 'Iceland'),
+('JEP', 'Jersey Pound', 'Jersey'),
+('JMD', 'Jamaican Dollar', 'Jamaica'),
+('JOD', 'Jordanian Dinar', 'Jordan'),
+('JPY', 'Japanese Yen', 'Japan'),
+('KES', 'Kenyan Shilling', 'Kenya'),
+('KGS', 'Kyrgyzstani Som', 'Kyrgyzstan'),
+('KHR', 'Cambodian Riel', 'Cambodia'),
+('KID', 'Kiribati Dollar', 'Kiribati'),
+('KMF', 'Comorian Franc', 'Comoros'),
+('KRW', 'South Korean Won', 'South Korea'),
+('KWD', 'Kuwaiti Dinar', 'Kuwait'),
+('KYD', 'Cayman Islands Dollar', 'Cayman Islands'),
+('KZT', 'Kazakhstani Tenge', 'Kazakhstan'),
+('LAK', 'Lao Kip', 'Laos'),
+('LBP', 'Lebanese Pound', 'Lebanon'),
+('LKR', 'Sri Lanka Rupee', 'Sri Lanka'),
+('LRD', 'Liberian Dollar', 'Liberia'),
+('LSL', 'Lesotho Loti', 'Lesotho'),
+('LYD', 'Libyan Dinar', 'Libya'),
+('MAD', 'Moroccan Dirham', 'Morocco'),
+('MDL', 'Moldovan Leu', 'Moldova'),
+('MGA', 'Malagasy Ariary', 'Madagascar'),
+('MKD', 'Macedonian Denar', 'North Macedonia'),
+('MMK', 'Burmese Kyat', 'Myanmar'),
+('MNT', 'Mongolian Tögrög', 'Mongolia'),
+('MOP', 'Macanese Pataca', 'Macau'),
+('MRU', 'Mauritanian Ouguiya', 'Mauritania'),
+('MUR', 'Mauritian Rupee', 'Mauritius'),
+('MVR', 'Maldivian Rufiyaa', 'Maldives'),
+('MWK', 'Malawian Kwacha', 'Malawi'),
+('MXN', 'Mexican Peso', 'Mexico'),
+('MYR', 'Malaysian Ringgit', 'Malaysia'),
+('MZN', 'Mozambican Metical', 'Mozambique'),
+('NAD', 'Namibian Dollar', 'Namibia'),
+('NGN', 'Nigerian Naira', 'Nigeria'),
+('NIO', 'Nicaraguan Córdoba', 'Nicaragua'),
+('NOK', 'Norwegian Krone', 'Norway'),
+('NPR', 'Nepalese Rupee', 'Nepal'),
+('NZD', 'New Zealand Dollar', 'New Zealand'),
+('OMR', 'Omani Rial', 'Oman'),
+('PAB', 'Panamanian Balboa', 'Panama'),
+('PEN', 'Peruvian Sol', 'Peru'),
+('PGK', 'Papua New Guinean Kina', 'Papua New Guinea'),
+('PHP', 'Philippine Peso', 'Philippines'),
+('PKR', 'Pakistani Rupee', 'Pakistan'),
+('PLN', 'Polish Złoty', 'Poland'),
+('PYG', 'Paraguayan Guaraní', 'Paraguay'),
+('QAR', 'Qatari Riyal', 'Qatar'),
+('RON', 'Romanian Leu', 'Romania'),
+('RSD', 'Serbian Dinar', 'Serbia'),
+('RUB', 'Russian Ruble', 'Russia'),
+('RWF', 'Rwandan Franc', 'Rwanda'),
+('SAR', 'Saudi Riyal', 'Saudi Arabia'),
+('SBD', 'Solomon Islands Dollar', 'Solomon Islands'),
+('SCR', 'Seychellois Rupee', 'Seychelles'),
+('SDG', 'Sudanese Pound', 'Sudan'),
+('SEK', 'Swedish Krona', 'Sweden'),
+('SGD', 'Singapore Dollar', 'Singapore'),
+('SHP', 'Saint Helena Pound', 'Saint Helena'),
+('SLE', 'Sierra Leonean Leone', 'Sierra Leone'),
+('SOS', 'Somali Shilling', 'Somalia'),
+('SRD', 'Surinamese Dollar', 'Suriname'),
+('SSP', 'South Sudanese Pound', 'South Sudan'),
+('STN', 'São Tomé and Príncipe Dobra', 'São Tomé and Príncipe'),
+('SYP', 'Syrian Pound', 'Syria'),
+('SZL', 'Eswatini Lilangeni', 'Eswatini'),
+('THB', 'Thai Baht', 'Thailand'),
+('TJS', 'Tajikistani Somoni', 'Tajikistan'),
+('TMT', 'Turkmenistan Manat', 'Turkmenistan'),
+('TND', 'Tunisian Dinar', 'Tunisia'),
+('TOP', 'Tongan Paanga', 'Tonga'),
+('TRY', 'Turkish Lira', 'Turkey'),
+('TTD', 'Trinidad and Tobago Dollar', 'Trinidad and Tobago'),
+('TVD', 'Tuvaluan Dollar', 'Tuvalu'),
+('TWD', 'New Taiwan Dollar', 'Taiwan'),
+('TZS', 'Tanzanian Shilling', 'Tanzania'),
+('UAH', 'Ukrainian Hryvnia', 'Ukraine'),
+('UGX', 'Ugandan Shilling', 'Uganda'),
+('USD', 'United States Dollar', 'United States'),
+('UYU', 'Uruguayan Peso', 'Uruguay'),
+('UZS', 'Uzbekistani Som', 'Uzbekistan'),
+('VES', 'Venezuelan Bolívar Soberano', 'Venezuela'),
+('VND', 'Vietnamese Đồng', 'Vietnam'),
+('VUV', 'Vanuatu Vatu', 'Vanuatu'),
+('WST', 'Samoan Tālā', 'Samoa'),
+('XAF', 'Central African CFA Franc', 'CEMAC'),
+('XCD', 'East Caribbean Dollar', 'Organisation of Eastern Caribbean States'),
+('XDR', 'Special Drawing Rights', 'International Monetary Fund'),
+('XOF', 'West African CFA franc', 'CFA'),
+('XPF', 'CFP Franc', 'Collectivités dOutre-Mer'),
+('YER', 'Yemeni Rial', 'Yemen'),
+('ZAR', 'South African Rand', 'South Africa'),
+('ZMW', 'Zambian Kwacha', 'Zambia'),
+('ZWL', 'Zimbabwean Dollar', 'Zimbabwe')]
+
+cursor.executemany(sqlFormula5, currency_values)
+mydb.commit()
+
+""" Dummy data for table user_login"""
+
+sqlFormula6 = "INSERT INTO user_login (login_ID, username, pass_word) VALUES (%s, %s, %s)"
+
+login_values = [(1, 'AuroraS', 'abcdefghhh'),
+(2, 'NatashaE', 'abcdefghhi'),
+(3, 'GianneN', 'abcdefghho'),
+(4, 'BrendaM', 'abcdefghhp'),
+(5, 'JulietteB', 'abcdefghhy')]
+
+
+cursor.executemany(sqlFormula6, login_values)
+mydb.commit()
