@@ -1,47 +1,39 @@
 import mysql.connector
 from config import *
-from mysql.connector import Error
-# from Project_API import currency, Rate_Info
 
-def _connect_to_db():
-    mydb = mysql.connector.connect(
+db = mysql.connector.connect(
         host=HOST,
         user=USER,
         password=PASSWORD,
         database=DATABASE_NAME
-    )
-    return mydb
-        
+)
 
-mydb = _connect_to_db()
-cursor = mydb.cursor()
-
+mycursor = db.cursor()
 """ Example of dummy data for table user_details"""
 
 sqlFormula = "INSERT INTO user_details (user_ID, first_name, last_name, username, email, pass_word, address_line_1, postcode) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-users = [(1, 'Aurora', 'Sanchez', 'AuroraS', 'aurora@gmail.com', 'abcdefghhh', '77A Mill Road, Burgess Hill', '1111111'),
-(2, 'Natasha', 'Edun', 'NatashaE', 'Natasha@gmail.com', 'abcdefghhi', '77B Mill Road, Burgess Hill', '1111112'),
-(3, 'Gianne', 'Nandra', 'GianneN', 'Gianne@gmail.com', 'abcdefghho', '77C Mill Road, Burgess Hill', '1111113'),
-(4, 'Brenda', 'Murage', 'BrendaM', 'Brenda@gmail.com','abcdefghhp', '77D Mill Road, Burgess Hill', '1111114'),
-(5, 'Juliette', 'Behr', 'JulietteB', 'Juliette@gmail.com','abcdefghhy', '77E Mill Road, Burgess Hill', '1111115')]
+users = [(11, 'Aurora', 'Sanchez', 'AuroraS', 'aurora@gmail.com', 'abcdefghhh', '77A Mill Road, Burgess Hill', '1111111'),
+(12, 'Natasha', 'Edun', 'NatashaE', 'Natasha@gmail.com', 'abcdefghhi', '77B Mill Road, Burgess Hill', '1111112'),
+(13, 'Gianne', 'Nandra', 'GianneN', 'Gianne@gmail.com', 'abcdefghho', '77C Mill Road, Burgess Hill', '1111113'),
+(14, 'Brenda', 'Murage', 'BrendaM', 'Brenda@gmail.com','abcdefghhp', '77D Mill Road, Burgess Hill', '1111114'),
+(15, 'Juliette', 'Behr', 'JulietteB', 'Juliette@gmail.com','abcdefghhy', '77E Mill Road, Burgess Hill', '1111115')]
 
-cursor.executemany(sqlFormula, users)
-
-mydb.commit()
+mycursor.executemany(sqlFormula, users)
+db.commit()
 
 """ Example of dummy data for table bank_details"""
 
 sqlFormula2 = "INSERT INTO bank_details (account_number, user_ID, sort_code, currency, main_account_balance) VALUES (%s, %s, %s, %s, %s)"
 
-details = [(12345678, 1, '44-44-44', 'GBP', 450.00),
-(12345671, 2, '44-44-45', 'GBP', 460.00),
-(12345673, 3, '44-44-46', 'GBP', 470.00 ),
-(12345674, 4, '44-44-47', 'GBP', 480.00),
-(12345679, 5, '44-44-48', 'GBP', 490.00)]
+details = [(12345678, 11, '44-44-44', 'GBP', 450.00),
+(12345671, 12, '44-44-45', 'GBP', 460.00),
+(12345673, 13, '44-44-46', 'GBP', 470.00 ),
+(12345674, 14, '44-44-47', 'GBP', 480.00),
+(12345679, 15, '44-44-48', 'GBP', 490.00)]
 
-cursor.executemany(sqlFormula2, details)
-mydb.commit()
+mycursor.executemany(sqlFormula2, details)
+db.commit()
 
 """ Example of dummy data for table foreign_account"""
 
@@ -53,8 +45,8 @@ new_account = [(12345675, 12345678, 400.00, 'EUR'),
 (42345675, 12345674, 800.00, 'USD'),
 (52345675, 12345679, 900.00, 'USD')]
 
-cursor.executemany(sqlFormula3, new_account)
-mydb.commit()
+mycursor.executemany(sqlFormula3, new_account)
+db.commit()
 
 """ Example of dummy data for table transactions"""
 
@@ -63,11 +55,11 @@ sqlFormula4 = "INSERT INTO transactions (transaction_ID, account_number, foreign
 transaction_values = [(8787, 12345678,12345675, '2022-07-12 15:15:15', 'EUR', 25.25, 14.00, 0.000043),
 (2222, 12345673, 32345675, '2022-06-12 16:15:15', 'EUR', 35.25, 24.00, 0.000044),
 (3333, 12345674, 42345675, '2022-05-12 16:15:15', 'USD', 35.25, 54.00, 1.202582),
-(4444, 12345671, 12345675, '2022-06-13 12:15:15', 'EUR', 35.25, 24.00, 0.002345),
+(4444, 12345671, 22345675, '2022-06-13 12:15:15', 'EUR', 35.25, 24.00, 0.002345),
 (5555, 12345679, 52345675, '2022-06-12 16:15:15', 'USD', 55.00, 66.17, 1.202582)]
 
-cursor.executemany(sqlFormula4, transaction_values)
-mydb.commit()
+mycursor.executemany(sqlFormula4, transaction_values)
+db.commit()
 
 """ ACTUAL data for table currency_codes"""
 
@@ -235,8 +227,8 @@ currency_values = [('AED', 'UAE Dirham', 'United Arab Emirates'),
 ('ZMW', 'Zambian Kwacha', 'Zambia'),
 ('ZWL', 'Zimbabwean Dollar', 'Zimbabwe')]
 
-cursor.executemany(sqlFormula5, currency_values)
-mydb.commit()
+mycursor.executemany(sqlFormula5, currency_values)
+db.commit()
 
 """ Dummy data for table user_login"""
 
@@ -249,5 +241,5 @@ login_values = [(1, 'AuroraS', 'abcdefghhh'),
 (5, 'JulietteB', 'abcdefghhy')]
 
 
-cursor.executemany(sqlFormula6, login_values)
-mydb.commit()
+mycursor.executemany(sqlFormula6, login_values)
+db.commit()
