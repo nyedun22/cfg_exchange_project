@@ -1,7 +1,8 @@
 import mysql.connector
 from config import *
 from mysql.connector import Error
-from Project_API import currency, Rate_Info
+from api_file import currency, Rate_Info
+
 
 def _connect_to_db():
     db_connection = mysql.connector.connect(
@@ -11,7 +12,8 @@ def _connect_to_db():
         database=DATABASE_NAME
     )
     return db_connection
-        
+
+
 ## PERFORMING FUNCTIONS ON THE DATABASE ##
 
 class Bank_User:
@@ -25,17 +27,16 @@ class Bank_User:
         self.cur_bank_balance = 0
         self.for_bank_balance = 0
 
-
-    #function to get username
+    # function to get username
     def get_username(self, username_input):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
         username_query = ('SELECT IF (EXISTS(SELECT username FROM user_details WHERE username = %s), 1, 0)')
-        mycursor.execute(username_query, (username_input, ))
+        mycursor.execute(username_query, (username_input,))
         for x in mycursor:
-            self.username = x[0] #username stored as 1 (if exists) or 0 (if not exists)
+            self.username = x[0]  # username stored as 1 (if exists) or 0 (if not exists)
 
-    #function to get password
+    # function to get password
     def get_password(self, username_input):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
@@ -44,7 +45,7 @@ class Bank_User:
         for x in mycursor:
             self.password = x[0]
 
-    #function to get the user_id
+    # function to get the user_id
     def get_user_id(self, username_input, password_input):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
@@ -55,7 +56,8 @@ class Bank_User:
             self.user_id = user_id
 
     # function which verifies username and password and if they are a match it will return user id:
-    def login_verification(self): #can also pass username and password through as arguement, maybe change to this when front end has been set up
+    def login_verification(
+            self):  # can also pass username and password through as arguement, maybe change to this when front end has been set up
         username_input = input('username:')  # simulates user input
         try:
             self.get_username(username_input)
@@ -72,30 +74,31 @@ class Bank_User:
             else:
                 print('Incorrect Password')
 
-
-    #function to check current account balance and update class with bank balance and bank ID
-    def balance_check(self): #again might change this to pass through user_amount as argument
+    # function to check current account balance and update class with bank balance and bank ID
+    def balance_check(self):  # again might change this to pass through user_amount as argument
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
-        query = ('SELECT main_account_balance, account_number FROM bank_details b JOIN user_details u ON u.user_id = b.user_id WHERE u.user_id = %s')
-        mycursor.execute(query, (self.user_id, ))
+        query = (
+            'SELECT main_account_balance, account_number FROM bank_details b JOIN user_details u ON u.user_id = b.user_id WHERE u.user_id = %s')
+        mycursor.execute(query, (self.user_id,))
         for x in mycursor:
             bank_balance = x[0]
             account_number = x[1]
             self.cur_bank_balance = bank_balance
             self.cur_account_number = account_number
 
-    #function which creates a new account
-    #using dummy exchange rate, this will be passed through as param later
+    # function which creates a new account
+    # using dummy exchange rate, this will be passed through as param later
     def create_foreign_account(self, foreign_amount, currency_code):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
-        query = ('INSERT INTO foreign_account (account_number, foreign_account_balance, foreign_currency) VALUES (%s, %s, %s)')
+        query = (
+            'INSERT INTO foreign_account (account_number, foreign_account_balance, foreign_currency) VALUES (%s, %s, %s)')
         self.for_bank_balance += foreign_amount
         mycursor.execute(query, (self.cur_account_number, self.for_bank_balance, currency_code))
         db_connection.commit()
 
-    #function which updates current account bank balance
+    # function which updates current account bank balance
     def update_current_account(self, user_amount):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
@@ -104,23 +107,31 @@ class Bank_User:
         mycursor.execute(query, (self.cur_bank_balance, self.cur_account_number))
         db_connection.commit()
 
-    #function to record transaction
+    # function to record transaction
 
-    #function to print current account balance
+    # function to print current account balance
 
-    #function to provide details of new foreign exchange account
+    # function to provide details of new foreign exchange account
     def get_foreign_account(self):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
         query = ('SELECT * FROM foreign account WHERE foreign_account_number = %')
         mycursor.execute(query, (self.cur_account_number,))
         self.for_account_number = foreign_account_number
-        
 
-
-    #function to create new current account
-
-    #transaction which moves money from one account to another -using other functions within the function
+    # function to create new current account
+    def create_account(self):
+        db_connection = _connect_to_db()
+        mycursor = db_connection.cursor()
+        with open('registration.txt', 'r') as text_file:
+            file = text_file.read()
+            reg_data = eval(file)
+        # print(reg_data.keys())
+        query = ("INSERT INTO user_details (first_name, last_name, username, email, pass_word, address_line_1, postcode) VALUES (%s),(%s),(%s),(%s),(%s),(%s),(%s)", (reg_data['first_name']), (reg_data['last_name']), (reg_data['username']), (reg_data['email']), (reg_data['password']), (reg_data['address']), (reg_data['postcode']))
+        mycursor.execute(query)
+        db_connection.commit()
+#
+#transaction which moves money from one account to another -using other functions within the function
     def xchange_transaction(self):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
@@ -160,9 +171,10 @@ class Bank_User:
 
 user = Bank_User()
 
-user.login_verification()
-user.balance_check()
-user.xchange_transaction()
-user.reset_user()
+# user.login_verification()
+# user.balance_check()
+# user.xchange_transaction()
+# user.reset_user()
+user.create_account()
 
 
