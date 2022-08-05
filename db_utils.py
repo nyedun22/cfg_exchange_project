@@ -23,7 +23,6 @@ class Bank_User:
         self.password = None
         self.user_id = None
         self.cur_account_number = None
-        self.for_account_number = None
         self.cur_bank_balance = 0
         self.for_bank_balance = 0
 
@@ -117,20 +116,20 @@ class Bank_User:
         mycursor = db_connection.cursor()
         query = ('SELECT * FROM foreign account WHERE foreign_account_number = %')
         mycursor.execute(query, (self.cur_account_number,))
-        self.for_account_number = foreign_account_number
+
 
     # function to create new current account
-    def create_account(self):
+    def create_account(self, first_name, last_name, username, email, pass_word, address_line_1, postcode):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
-        with open('registration.txt', 'r') as text_file:
-            file = text_file.read()
-            reg_data = eval(file)
+        # with open('registration.txt', 'r') as text_file:
+        #     file = text_file.read()
+        #     reg_data = eval(file)
         # print(reg_data.keys())
-        query = ("INSERT INTO user_details (first_name, last_name, username, email, pass_word, address_line_1, postcode) VALUES (%s),(%s),(%s),(%s),(%s),(%s),(%s)", (reg_data['first_name']), (reg_data['last_name']), (reg_data['username']), (reg_data['email']), (reg_data['password']), (reg_data['address']), (reg_data['postcode']))
-        mycursor.execute(query)
+        query = ("INSERT INTO user_details (first_name, last_name, username, email, pass_word, address_line_1, postcode) VALUES ((%s),(%s),(%s),(%s),(%s),(%s),(%s))")
+        mycursor.execute(query, (first_name, last_name, username, email, pass_word, address_line_1, postcode))
         db_connection.commit()
-#
+
 #transaction which moves money from one account to another -using other functions within the function
     def xchange_transaction(self):
         db_connection = _connect_to_db()
@@ -169,12 +168,12 @@ class Bank_User:
         self.for_bank_balance = 0
 
 
-user = Bank_User()
-
-# user.login_verification()
-# user.balance_check()
-# user.xchange_transaction()
-# user.reset_user()
-user.create_account()
+# user = Bank_User()
+#
+# # user.login_verification()
+# # user.balance_check()
+# # user.xchange_transaction()
+# # user.reset_user()
+# user.create_account()
 
 
