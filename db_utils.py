@@ -106,8 +106,6 @@ class Bank_User:
         mycursor.execute(query, (self.cur_bank_balance, self.cur_account_number))
         db_connection.commit()
 
-    # function to record transaction
-
     # function to print current account balance
 
     # function to provide details of new foreign exchange account
@@ -122,10 +120,6 @@ class Bank_User:
     def create_account(self, first_name, last_name, username, email, pass_word, address_line_1, postcode):
         db_connection = _connect_to_db()
         mycursor = db_connection.cursor()
-        # with open('registration.txt', 'r') as text_file:
-        #     file = text_file.read()
-        #     reg_data = eval(file)
-        # print(reg_data.keys())
         query = ("INSERT INTO user_details (first_name, last_name, username, email, pass_word, address_line_1, postcode) VALUES ((%s),(%s),(%s),(%s),(%s),(%s),(%s))")
         mycursor.execute(query, (first_name, last_name, username, email, pass_word, address_line_1, postcode))
         db_connection.commit()
@@ -157,6 +151,24 @@ class Bank_User:
             print('New Foreign Currency Account Balance: {} {}'.format(self.for_bank_balance, Rate_Info['Currency']))
         finally:
             db_connection.close()
+
+    def record_transaction(self):
+        db_connection = _connect_to_db()
+        mycursor = db_connection.cursor()
+        query = ('INSERT INTO transactions (account_number, foreign_account_number, date, foreign_currency, gbp_amount, foreign_currency_amount, exchange_rate) VALUES (%s), (%s), (%s), (%s), (%s), (%s), (%s)')
+        api = currency()
+        api.get_rate()
+        api.exchange_amount()
+        account_number = self.cur_account_number
+        foreign_account_number = self.for_account_number
+        data = Rate_Info['ts']
+        foreign_currency = Rate_Info['Currency']
+        gbp_amount = Rate_Info['AmountGBP']
+        foreign_currency_amount = Rate_Info['Foreign_Amount']
+        exchange_rate = Rate_Info['Rate']
+        mycursor.execute(query, (account_numer, foreign_account_number, date, foreign_currency, foreign_currency_amount, exchange_rate))
+        db_connection.commit()
+
 
     #function to reset class
     def reset_user(self):
